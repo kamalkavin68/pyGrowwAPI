@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.3.0] - 2025-09-04
+### Added
+- New `get_market_depth(symbol)` method in `GrowwClient` to fetch live order book data.
+- Introduced `MarketDepth` and `EachDepth` Pydantic models for structured market depth responses.
+- Example usage for market depth in README.md.
+
+---
+
 ## [0.2.0] - 2025-09-04
 ### Changed
 - Converted `GrowwClient` methods to accept `symbol` as a parameter instead of in constructor.

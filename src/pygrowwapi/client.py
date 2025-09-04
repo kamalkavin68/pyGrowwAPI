@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import requests
 from datetime import datetime, timedelta
-from .model import Candle
+from .model import Candle, MarketDepth
 
 class GrowwClient:
     """
@@ -12,6 +12,7 @@ class GrowwClient:
     BASE_URL: str = "https://groww.in/v1/api"
     QUOTES_URL: str = BASE_URL + "/stocks_data/v1/accord_points/exchange/NSE/segment/CASH/latest_prices_ohlc/{symbol}"
     HISTORY_URL: str = BASE_URL + "/charting_service/v2/chart/exchange/NSE/segment/CASH/{symbol}"
+    DEPTH_URL: str = BASE_URL + "/stocks_data/v1/tr_live_book/exchange/NSE/segment/CASH/{symbol}/latest"
 
     VALID_PERIOD_UNITS = ["day", "week", "month", "year"]
     VALID_INTERVAL_UNITS = ["min", "hour", "day", "week", "month", "year"]
@@ -97,3 +98,19 @@ class GrowwClient:
         raise ValueError(
             f"Invalid interval format: {interval}. Use a number followed by one of {', '.join(self.VALID_INTERVAL_UNITS)}"
         )
+
+    def get_market_depth(self, symbol: str) -> MarketDepth:
+        """
+        Fetch live order book (market depth) for the stock.
+
+        Args:
+            symbol (str): NSE stock symbol (e.g., "SBIN").
+
+        Returns:
+            MarketDepth: Parsed market depth model with buy/sell books.
+        """
+        url = self.DEPTH_URL.format(symbol=symbol.upper())
+        resp = requests.get(url, timeout=10)
+        resp.raise_for_status()
+        raw = resp.json()
+        return MarketDepth(**raw)

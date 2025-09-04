@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pyGrowwAPI"             # <-- Case preserved for PyPI branding
-version = "0.2.0"
+version = "0.3.0"
 description = "Unofficial Python SDK for Groww APIs (sync + async), with typed models."
 readme = "README.md"
 requires-python = ">=3.10"
