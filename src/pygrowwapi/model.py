@@ -50,16 +50,16 @@ class EachDepth(BaseModel):
 
 class MarketDepth(BaseModel):
     """Represents full market depth response from Groww."""
-    buyBook: Dict[str, EachDepth]
-    sellBook: Dict[str, EachDepth]
+    buyBook: Dict[int, EachDepth]
+    sellBook: Dict[int, EachDepth]
     symbol: str
     tsInMillis: int
     type: str
 
     def get_buy_levels(self) -> list[EachDepth]:
         """Return buy levels sorted by price index (1 → 5)."""
-        return [self.buyBook[str(i)] for i in sorted(map(int, self.buyBook.keys()))]
+        return [self.buyBook[i] for i in sorted(map(int, self.buyBook.keys()))]
 
     def get_sell_levels(self) -> list[EachDepth]:
         """Return sell levels sorted by price index (1 → 5)."""
-        return [self.sellBook[str(i)] for i in sorted(map(int, self.sellBook.keys()))]
+        return [self.sellBook[i] for i in sorted(map(int, self.sellBook.keys()))]
